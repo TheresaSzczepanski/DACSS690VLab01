@@ -1,0 +1,48 @@
+\begin{thebibliography}{}
+
+\bibitem [\protect \citeauthoryear {%
+Leisch%
+\ \BBA {} Team%
+}{%
+Leisch%
+\ \BBA {} Team%
+}{%
+{\protect \APACyear {{\protect \bibnodate {}}}}%
+}]{%
+leisch_sweave_2024}
+\APACinsertmetastar {%
+leisch_sweave_2024}%
+\begin{APACrefauthors}%
+Leisch, F.%
+\BCBT {}\ \BBA {} Team, R\BPBI C.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{{\protect \bibnodate {}}}{}{}.
+\newblock
+\APACrefbtitle {Sweave User Manual.} {Sweave user manual.}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Magallanes~Reyes%
+}{%
+Magallanes~Reyes%
+}{%
+{\protect \APACyear {{\protect \bibnodate {}}}}%
+}]{%
+magallanes_reyes_data_2022}
+\APACinsertmetastar {%
+magallanes_reyes_data_2022}%
+\begin{APACrefauthors}%
+Magallanes~Reyes, J\BPBI M.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYear{{\protect \bibnodate {}}}.
+\newblock
+\APACrefbtitle {Data Visualization for Social and Policy Research: A Step-by-Step Approach Using R and Python} {Data visualization for social and policy research: A step-by-step approach using r and python}.
+\newblock
+\APACaddressPublisher{}{Cambridge University Press}.
+\PrintBackRefs{\CurrentBib}
+
+\end{thebibliography}

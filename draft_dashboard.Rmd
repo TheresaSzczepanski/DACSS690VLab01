@@ -13,7 +13,7 @@ source("codesForDrafts.R")
 
 ## Intro {.sidebar}
 
-Preparing the dashboard based on the instructions given at @magallanes_reyes_data_2022, and @sievert_flexdashboard_2022.
+Preparing the dashboard based on the instructions given at @magallanes_jose_manuel_data_2022, and @leisch_friedrich_sweave_2024
 
 ### References
 <div id="refs"></div>
