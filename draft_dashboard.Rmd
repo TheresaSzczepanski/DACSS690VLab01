@@ -23,7 +23,8 @@ Preparing the dashboard based on the instructions given at @magallanes_jose_manu
 ### Worst barplot <!-- a title for plot -->
 
 ```{r}
-readRDS("del1Draft.rds")
+#readRDS("del1Draft.rds")
+readRDS("del1.rds")
 ```
 
 ### Worst histogram 
