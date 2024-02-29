@@ -1,5 +1,5 @@
 ---
-title: "My Dashbord at DACSS"
+title: "Theresa Szczepanski DACSS 690V"
 bibliography: testVisual.bib
 output: 
   flexdashboard::flex_dashboard:
@@ -13,24 +13,25 @@ source("codesForDrafts.R")
 
 ## Intro {.sidebar}
 
-Preparing the dashboard based on the instructions given at @magallanes_jose_manuel_data_2022, and @leisch_friedrich_sweave_2024
+Preparing the dashboard based on the instructions given by @magallanes_jose_manuel_data_2022, and @leisch_friedrich_sweave_2024
 
 ### References
 <div id="refs"></div>
 
 ## Column {data-width="450"}
 
-### Worst barplot <!-- a title for plot -->
+### Different Grades, Similar Skill Profiles <!-- a title for plot -->
 
 ```{r}
 #readRDS("del1Draft.rds")
 readRDS("del1.rds")
 ```
 
-### Worst histogram 
+### Same Skills, Different Growth
 
 ```{r}
-readRDS("del2Draft.rds")
+#readRDS("del2Draft.rds")
+readRDS("del2.rds")
 ```
 
 ## Column {data-width="550"}

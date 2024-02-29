@@ -45,16 +45,23 @@ mydata2<- mydata2%>%
                                                        "Low Growth, High Proficiency" = "Low Growth, High Proficiency",
                                                        "Low Growth, Low Proficiency" = "Low Growth, Low Proficiency",
                                                        .ordered = TRUE))%>%
+   mutate(`Grade` = as.factor(`Grade`))%>%
+  mutate(`IEP` = as.factor(`IEP`))%>%
+  mutate(`IEP_Status` = case_when(
+    IEP == 0 ~ "No",
+    IEP == 1 ~ "Yes"
+  ))%>%
   mutate(`Assignment Type` = `Assignment.Type`)%>%
   mutate(`Postal Code` = `Postal.Code`)%>%
   mutate(`Test 1 PR` = `Test.1.PR`)%>%
   mutate(`Test 2 PR` = `Test.2.PR`)%>%
   mutate(`SGP (Expectation=50)` = SGP..Expectation.50.)%>%
   mutate(`TS Placement` = TS.Placement)%>%
-  select(`SASID`, `City`, `Postal Code`, `Grade`, `IEP`, `Assignment Type`, `Test 1 Benchmark Category`, `Test 1 PR`, `Test 2 Benchmark Category`, `Test 2 PR`, `Growth Proficiency Category`, `SGP (Expectation=50)`, `TS Placement`)
+  select(`SASID`, `City`, `Postal Code`, `Grade`, `IEP_Status`, `Assignment Type`, `Test 1 Benchmark Category`, `Test 1 PR`, `Test 2 Benchmark Category`, `Test 2 PR`, `Growth Proficiency Category`, `SGP (Expectation=50)`, `TS Placement`)
 
 mydata2<-na.omit(mydata2)
-#view(mydata2)
+
+view(mydata2)
 
 
 # see data ----------------------------------------------------------
@@ -89,7 +96,7 @@ Fall_Benchmark_Dist <- mydata2%>%
 library(ggplot2)
 base2 = ggplot(data = Fall_Benchmark_Dist, aes(x=`Grade`,fill = `Grade`, y = `% Students`))
 
-del1 = base2 + geom_bar(position="dodge", stat = "identity") +
+del1 = base2 + geom_bar(position="dodge", stat = "identity") + theme_minimal()+
   facet_wrap(~`Assignment Type`)+
   geom_text(aes( y = `% Students`, label = `% Students`,
                  vjust = -.25))+
@@ -98,10 +105,11 @@ del1 = base2 + geom_bar(position="dodge", stat = "identity") +
   #    axis.text.x=element_blank(),
   #   axis.ticks.x=element_blank())+
   labs(
-    y = "% Students At/Above Benchmark",
+    y = "% Students",
     x= "Grade",
-    title = "STAR At/Above Benchmark Distribution",
-    caption = "Fall Screening")
+    title = "At/Above Benchmark",
+    caption = "Fall 2023 Screening") +
+  scale_fill_brewer(palette = "Blues")
 
 base= ggplot(data=mydata) 
 del1Draft= base + geom_bar(aes(x=LocaleType))
@@ -114,6 +122,19 @@ saveRDS(del1Draft, file = "del1Draft.rds")
 
 
 # deliverable 2 ----------------------------------------------------------
+math_data <- mydata2%>%
+  filter(`Assignment Type` == "Star Math")
+base2 = ggplot(data = math_data, aes(x=`SGP (Expectation=50)`, fill = IEP_Status))
+labels = labs(
+  x= "Student Growth Percentile",
+  title = "How Our Math Students Grew",
+  caption = "Winter 2024 Screening")
+del2 = base2 + geom_histogram(color = "#e9ecef", alpha = .6, position = "identity", binwidth = 20)+
+  geom_vline(xintercept = 50)+
+  scale_fill_manual(values = c("#69b3a2", "#404080"))+ 
+  theme_minimal()+ facet_wrap(~`Grade`) + labels + theme(axis.title.y=element_blank())
+# save del2
+saveRDS(del2, file = "del2.rds")
 
 del2Draft= base + geom_histogram(aes(x=Student.Teacher.Ratio))
 del2Draft
