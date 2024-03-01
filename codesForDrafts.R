@@ -77,6 +77,51 @@ str(mydata2)
 # deliverable 1 ----------------------------------------------------------
 Fall_Benchmark_Dist_Count<- mydata2%>%
   mutate(student_count = 1)%>%
+  group_by(`Grade`)%>%
+  summarize(student_total = sum(student_count))
+
+#view(Fall_Benchmark_Dist_Count)
+
+Fall_Benchmark_Dist_G5 <- mydata2%>%
+  #filter(`Test 1 Benchmark Category` == "At/Above Benchmark")%>%
+  mutate(student_count = 1)%>%
+  select( `Grade`, `Test 1 Benchmark Category`,  `student_count`)%>%
+  group_by(`Grade`, `Test 1 Benchmark Category`)%>%
+  summarize(`Num Students` = sum(student_count))%>%
+  left_join(Fall_Benchmark_Dist_Count, by = c( "Grade" = "Grade"))%>%
+  mutate(`% Students` = 100*round(`Num Students`/student_total, 2))%>%
+  filter(`Grade` == 5)
+ 
+
+view(Fall_Benchmark_Dist_G5)
+
+library(ggplot2)
+base2 = ggplot(data = Fall_Benchmark_Dist_G5, aes(x=`Test 1 Benchmark Category`,fill = `Test 1 Benchmark Category`, y = `% Students`))
+
+del1 = base2 + geom_bar(position="dodge", stat = "identity") + theme_minimal()+
+  geom_text(aes( y = `% Students`, label = `% Students`,
+                 vjust = -.25))+
+  # scale_fill_brewer(palette = "Blues")+
+  #theme(axis.title.x=element_blank(),
+  #    axis.text.x=element_blank(),
+  #   axis.ticks.x=element_blank())+
+  labs(
+    y = "% Students",
+    x= "Benchmark Category",
+    title = "Grade 5 Fall Skills",
+    caption = "Fall 2023 Screening") +
+  scale_fill_brewer(palette = "Blues")
+
+base = ggplot(data=mydata) 
+del1Draft= base + geom_bar(aes(x=LocaleType))
+del1Draft
+
+# save del1 
+saveRDS(del1, file = "del1.rds")
+
+# deliverable 1 Facet ----------------------------------------------------------
+Fall_Benchmark_Dist_Count<- mydata2%>%
+  mutate(student_count = 1)%>%
   group_by(`Grade`, `Assignment Type`)%>%
   summarize(student_total = sum(student_count))
 
@@ -94,9 +139,9 @@ Fall_Benchmark_Dist <- mydata2%>%
 #view(Fall_Benchmark_Dist)
 
 library(ggplot2)
-base2 = ggplot(data = Fall_Benchmark_Dist, aes(x=`Grade`,fill = `Grade`, y = `% Students`))
+base2_facet = ggplot(data = Fall_Benchmark_Dist, aes(x=`Grade`,fill = `Grade`, y = `% Students`))
 
-del1 = base2 + geom_bar(position="dodge", stat = "identity") + theme_minimal()+
+del1_facet = base2_facet + geom_bar(position="dodge", stat = "identity") + theme_minimal()+
   facet_wrap(~`Assignment Type`)+
   geom_text(aes( y = `% Students`, label = `% Students`,
                  vjust = -.25))+
@@ -111,17 +156,39 @@ del1 = base2 + geom_bar(position="dodge", stat = "identity") + theme_minimal()+
     caption = "Fall 2023 Screening") +
   scale_fill_brewer(palette = "Blues")
 
-base= ggplot(data=mydata) 
-del1Draft= base + geom_bar(aes(x=LocaleType))
-del1Draft
+# base= ggplot(data=mydata) 
+# del1Draft= base + geom_bar(aes(x=LocaleType))
+# del1Draft
 
 # save del1
 saveRDS(del1, file = "del1.rds")
+
+# save del1 facet
+saveRDS(del1_facet, file = "del1_facet.rds")
 # save del1Draft ----------------------------------------------------------
 saveRDS(del1Draft, file = "del1Draft.rds")
 
 
 # deliverable 2 ----------------------------------------------------------
+math_data <- mydata2%>%
+  filter(`Grade` == "5")
+base2_final = ggplot(data = math_data, aes(x=`SGP (Expectation=50)`))
+labels = labs(
+  x= "Student Growth Percentile",
+  title = "How Our G5 Students Grew",
+  caption = "Winter 2024 Screening")
+del2_final = base2_final + geom_histogram(fill = "#0066CC",color="#e9ecef", alpha = .6, position = "identity", binwidth = 20)+
+  geom_vline(xintercept = 50)+
+ # scale_fill_manual(values = "#0066CC")+ 
+  theme_minimal() + labels + theme(axis.title.y=element_blank())
+# save del2
+saveRDS(del2_final, file = "del2_final.rds")
+
+del2Draft= base + geom_histogram(aes(x=Student.Teacher.Ratio))
+del2Draft
+
+
+# deliverable 2 facet----------------------------------------------------------
 math_data <- mydata2%>%
   filter(`Assignment Type` == "Star Math")
 base2 = ggplot(data = math_data, aes(x=`SGP (Expectation=50)`, fill = IEP_Status))
@@ -131,7 +198,7 @@ labels = labs(
   caption = "Winter 2024 Screening")
 del2 = base2 + geom_histogram(color = "#e9ecef", alpha = .6, position = "identity", binwidth = 20)+
   geom_vline(xintercept = 50)+
-  scale_fill_manual(values = c("#69b3a2", "#404080"))+ 
+  scale_fill_manual(values = c( "#0066CC", "lightcyan"))+ 
   theme_minimal()+ facet_wrap(~`Grade`) + labels + theme(axis.title.y=element_blank())
 # save del2
 saveRDS(del2, file = "del2.rds")

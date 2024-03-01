@@ -20,18 +20,20 @@ Preparing the dashboard based on the instructions given by @magallanes_jose_manu
 
 ## Column {data-width="450"}
 
-### Different Grades, Similar Skill Profiles <!-- a title for plot -->
+### How our fifth graders began the year <!-- a title for plot -->
 
 ```{r}
 #readRDS("del1Draft.rds")
 readRDS("del1.rds")
 ```
 
-### Same Skills, Different Growth
+### Grade 5 Growth
 
 ```{r}
 #readRDS("del2Draft.rds")
-readRDS("del2.rds")
+#readRDS("del2.rds")
+
+readRDS("del2_final.rds")
 ```
 
 ## Column {data-width="550"}
