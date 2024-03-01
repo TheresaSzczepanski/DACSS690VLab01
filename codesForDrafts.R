@@ -110,7 +110,7 @@ del1 = base2 + geom_bar(position="dodge", stat = "identity") + theme_minimal()+
     x= "Benchmark Category",
     title = "Grade 5 Fall Skills",
     caption = "Fall 2023 Screening") +
-  scale_fill_brewer(palette = "Blues")
+  scale_fill_brewer(palette = "Blues")+ theme(legend.title=element_blank(), axis.text.x=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
 
 base = ggplot(data=mydata) 
 del1Draft= base + geom_bar(aes(x=LocaleType))
@@ -180,7 +180,7 @@ labels = labs(
 del2_final = base2_final + geom_histogram(fill = "#0066CC",color="#e9ecef", alpha = .6, position = "identity", binwidth = 20)+
   geom_vline(xintercept = 50)+
  # scale_fill_manual(values = "#0066CC")+ 
-  theme_minimal() + labels + theme(axis.title.y=element_blank())
+  theme_minimal() + labels + theme(axis.title.y=element_blank()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
 # save del2
 saveRDS(del2_final, file = "del2_final.rds")
 
