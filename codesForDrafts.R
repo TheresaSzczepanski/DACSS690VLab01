@@ -175,10 +175,11 @@ math_data <- mydata2%>%
 base2_final = ggplot(data = math_data, aes(x=`SGP (Expectation=50)`))
 labels = labs(
   x= "Student Growth Percentile",
-  title = "How Our G5 Students Grew",
+  title = "G5 Fall-Winter Growth",
   caption = "Winter 2024 Screening")
 del2_final = base2_final + geom_histogram(fill = "#0066CC",color="#e9ecef", alpha = .6, position = "identity", binwidth = 20)+
   geom_vline(xintercept = 50)+
+  annotate("text", x = 61, y = 50, label = "SGP > 50") +
  # scale_fill_manual(values = "#0066CC")+ 
   theme_minimal() + labels + theme(axis.title.y=element_blank()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
 # save del2

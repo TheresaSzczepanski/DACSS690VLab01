@@ -20,14 +20,14 @@ Preparing the dashboard based on the instructions given by @magallanes_jose_manu
 
 ## Column {data-width="450"}
 
-### How our fifth graders began the year <!-- a title for plot -->
+### How our G5 students began the year <!-- a title for plot -->
 
 ```{r}
 #readRDS("del1Draft.rds")
 readRDS("del1.rds")
 ```
 
-### Grade 5 Growth
+### How our G5 students grew
 
 ```{r}
 #readRDS("del2Draft.rds")
