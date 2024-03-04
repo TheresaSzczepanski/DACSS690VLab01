@@ -41,11 +41,14 @@ readRDS("del2_final.rds")
 ### Worst scatterplot
 
 ```{r}
-readRDS("del3Draft.rds")
+#readRDS("del3Draft.rds")
+
+readRDS("del3.rds")
 ```
 
 ### Worst map
 
 ```{r}
-readRDS("del4Draft.rds")
+#readRDS("del4Draft.rds")
+readRDS("del4.rds")
 ```

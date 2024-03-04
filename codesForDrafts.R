@@ -211,7 +211,25 @@ del2Draft
 # save del2Draft ----------------------------------------------------------
 saveRDS(del2Draft, file = "del2Draft.rds")
 
+# deliverable 3 final ----------------------------------------------------------
+G5_Math_data <- mydata2%>%
+  filter(Grade == "5")%>%
+  filter(`Assignment Type` == "Star Math")
 
+base3 = ggplot(data = G5_Math_data, x = `Test 1 PR`, y = `SGP (Expectation=50)`)
+del3= base3 + geom_point(aes(x=`Test 1 PR`,
+                                 y=`SGP (Expectation=50)`, color = `IEP_Status`))+
+  annotate("rect", xmin = 0, xmax = 25, ymin = 0, ymax = 49,
+           alpha = .2)+
+  geom_hline(yintercept = 50, color = "grey")+
+  scale_color_manual(values = c("cyan","#0066CC"))+
+ # scale_fill_manual(values = c( "#0066CC", "lightcyan"))+ 
+  theme_minimal() + theme(axis.title.y=element_blank()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank())
+ 
+del3 
+
+# save del3 ----------------------------------------------------------
+saveRDS(del3, file = "del3.rds")
 # deliverable 3 ----------------------------------------------------------
 
 del3Draft= base + geom_point(aes(x=Student.Teacher.Ratio,
@@ -220,6 +238,28 @@ del3Draft
 
 # save del3Draft ----------------------------------------------------------
 saveRDS(del3Draft, file = "del3Draft.rds")
+
+# deliverable 4 final ----------------------------------------------------------
+
+library(sf)
+mass_zip_map=sf::read_sf("_data/zipcodes_nt/ZIPCODES_NT_POLY.shp")
+head(mass_zip_map)
+#head(mydata)
+
+# merge data into map ----------------------------------------------------------
+mydataZip=aggregate(data=mydata2,`Test 1 PR`~`Postal Code`,FUN = mean)
+view(mydataZip)
+myMapGrade=merge(mass_zip_map,mydataZip,by.x= 'POSTCODE', 'Postal Code')
+
+# prepare plot
+
+base4 = ggplot(myMapGrade)
+del4= base4 + geom_sf(aes(fill=`Test 1 PR`))
+del4
+
+# save del4 ----------------------------------------------------------
+saveRDS(del4, file = "del4.rds")
+
 
 
 # deliverable 4  ----------------------------------------------------------
