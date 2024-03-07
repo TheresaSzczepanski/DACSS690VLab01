@@ -22,21 +22,22 @@ filename="theFile.csv"
 mydata=read.csv(filename)
 
 filename2 = "_data/PrivProtectWinterGrowthAddress.csv"
-mydata2 <- read.csv(filename2)
-#view(mydata2)
-mydata2<- mydata2%>%
+mydata2_test <- read.csv(filename2)
+view(mydata2_test)
+mydata2<- mydata2_test%>%
   mutate(`Test 2 Benchmark Category` = recode_factor(`Test.2.Benchmark.Category`,
                                                      "At/Above Benchmark" = "At/Above Benchmark",
                                                      "On Watch" = "On Watch",
                                                      "Intervention" = "Intervention",
-                                                     "Urgent Intervention"= "Urgent Intervention",
+                                                     "Urgent Intervention" = "Urgent Intervention",
                                                      .ordered = TRUE))%>%
   mutate (`Test 2 Benchmark Category` = na_if(`Test.2.Benchmark.Category`, "-"))%>%
-  mutate(`Test 1 Benchmark Category` = recode_factor(`Test.1.Benchmark.Category`,
+  mutate(`Test 1 Benchmark Category` = `Test.1.Benchmark.Category`)%>%
+  mutate(`Test 1 Benchmark Category` = recode_factor(`Test 1 Benchmark Category`,
                                                      "At/Above Benchmark" = "At/Above Benchmark",
                                                      "On Watch" = "On Watch",
                                                      "Intervention" = "Intervention",
-                                                     "Urgent Intervention"= "Urgent Intervention",
+                                                     "Urgent Intervention" = "Urgent Intervention",
                                                      .ordered = TRUE))%>%
   mutate (`Test 1 Benchmark Category` = na_if(`Test.1.Benchmark.Category`, "-"))%>%
   mutate(`Growth Proficiency Category` = recode_factor(`Growth.Proficiency.Category`,
@@ -60,7 +61,20 @@ mydata2<- mydata2%>%
   select(`SASID`, `City`, `Postal Code`, `Grade`, `IEP_Status`, `Assignment Type`, `Test 1 Benchmark Category`, `Test 1 PR`, `Test 2 Benchmark Category`, `Test 2 PR`, `Growth Proficiency Category`, `SGP (Expectation=50)`, `TS Placement`)
 
 mydata2<-na.omit(mydata2)
-
+mydata2<-mydata2%>%
+  mutate(`Test 1 Benchmark Category` = recode_factor(`Test 1 Benchmark Category`,
+                              "At/Above Benchmark" = "At/Above Benchmark",
+                              "On Watch" = "On Watch",
+                              "Intervention" = "Intervention",
+                              "Urgent Intervention" = "Urgent Intervention",
+                              .ordered = TRUE))%>%
+  mutate(`Test 2 Benchmark Category` = recode_factor(`Test 2 Benchmark Category`,
+                                                     "At/Above Benchmark" = "At/Above Benchmark",
+                                                     "On Watch" = "On Watch",
+                                                     "Intervention" = "Intervention",
+                                                     "Urgent Intervention" = "Urgent Intervention",
+                                                     .ordered = TRUE))
+  
 view(mydata2)
 
 
@@ -71,7 +85,7 @@ head(mydata2)
 
 
 # see data types ----------------------------------------------------------
-
+str(mydata2_test)
 str(mydata2)
 
 # deliverable 1 ----------------------------------------------------------
@@ -96,9 +110,9 @@ Fall_Benchmark_Dist_G5 <- mydata2%>%
 view(Fall_Benchmark_Dist_G5)
 
 library(ggplot2)
-base2 = ggplot(data = Fall_Benchmark_Dist_G5, aes(x=`Test 1 Benchmark Category`,fill = `Test 1 Benchmark Category`, y = `% Students`))
+base2 = ggplot(data = Fall_Benchmark_Dist_G5, aes(x=`Test 1 Benchmark Category`, y = `% Students`))
 
-del1 = base2 + geom_bar(position="dodge", stat = "identity") + theme_minimal()+
+del1 = base2 + geom_bar(position="dodge", stat = "identity", fill = "#0066CC") + theme_minimal()+
   geom_text(aes( y = `% Students`, label = `% Students`,
                  vjust = -.25))+
   # scale_fill_brewer(palette = "Blues")+
@@ -109,8 +123,9 @@ del1 = base2 + geom_bar(position="dodge", stat = "identity") + theme_minimal()+
     y = "% Students",
     x= "Benchmark Category",
     title = "Grade 5 Fall Skills",
-    caption = "Fall 2023 Screening") +
-  scale_fill_brewer(palette = "Blues")+ theme(legend.title=element_blank(), axis.text.x=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
+    subtitle = "Sept 2023 Screening Rising Tide Charter Public School",
+    caption = "Source: Renaissance STAR Literacy and Math Assessment") +
+  scale_color_brewer(palette = "Blues")+ theme(legend.title=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
 
 base = ggplot(data=mydata) 
 del1Draft= base + geom_bar(aes(x=LocaleType))
@@ -176,10 +191,11 @@ base2_final = ggplot(data = math_data, aes(x=`SGP (Expectation=50)`))
 labels = labs(
   x= "Student Growth Percentile",
   title = "G5 Fall-Winter Growth",
-  caption = "Winter 2024 Screening")
+  subtitle = "Jan 2024 Screening Rising Tide Charter Public School",
+  caption = "Source: Renaissance, STAR Literacy and Math Assessment")
 del2_final = base2_final + geom_histogram(fill = "#0066CC",color="#e9ecef", alpha = .6, position = "identity", binwidth = 20)+
   geom_vline(xintercept = 50)+
-  annotate("text", x = 61, y = 50, label = "SGP > 50") +
+  annotate("text", x = 61, y = 50, label = "48% Achieved") +
  # scale_fill_manual(values = "#0066CC")+ 
   theme_minimal() + labels + theme(axis.title.y=element_blank()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
 # save del2
