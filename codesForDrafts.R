@@ -185,6 +185,25 @@ saveRDS(del1Draft, file = "del1Draft.rds")
 
 
 # deliverable 2 ----------------------------------------------------------
+
+Winter_Growth_Dist_Count<- mydata2%>%
+  mutate(student_count = 1)%>%
+  group_by(`Grade`, `Growth Proficiency Category`)%>%
+  summarize(student_total = sum(student_count))
+
+view(Winter_Growth_Dist_Count)
+
+# Fall_Benchmark_Dist_G5 <- mydata2%>%
+#   #filter(`Test 1 Benchmark Category` == "At/Above Benchmark")%>%
+#   mutate(student_count = 1)%>%
+#   select( `Grade`, `Test 1 Benchmark Category`,  `student_count`)%>%
+#   group_by(`Grade`, `Test 1 Benchmark Category`)%>%
+#   summarize(`Num Students` = sum(student_count))%>%
+#   left_join(Fall_Benchmark_Dist_Count, by = c( "Grade" = "Grade"))%>%
+#   mutate(`% Students` = 100*round(`Num Students`/student_total, 2))%>%
+#   filter(`Grade` == 5)
+
+
 math_data <- mydata2%>%
   filter(`Grade` == "5")
 base2_final = ggplot(data = math_data, aes(x=`SGP (Expectation=50)`))
@@ -195,7 +214,7 @@ labels = labs(
   caption = "Source: Renaissance, STAR Literacy and Math Assessment")
 del2_final = base2_final + geom_histogram(fill = "#0066CC",color="#e9ecef", alpha = .6, position = "identity", binwidth = 20)+
   geom_vline(xintercept = 50)+
-  annotate("text", x = 61, y = 50, label = "48% Achieved") +
+  annotate("text", x = 61, y = 50, label = "50% Achieved") +
  # scale_fill_manual(values = "#0066CC")+ 
   theme_minimal() + labels + theme(axis.title.y=element_blank()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
 # save del2
