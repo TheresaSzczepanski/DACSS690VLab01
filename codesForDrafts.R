@@ -41,10 +41,10 @@ mydata2<- mydata2_test%>%
                                                      .ordered = TRUE))%>%
   mutate (`Test 1 Benchmark Category` = na_if(`Test.1.Benchmark.Category`, "-"))%>%
   mutate(`Growth Proficiency Category` = recode_factor(`Growth.Proficiency.Category`,
-                                                       "High Growth, High Proficiency" = "High Growth, High Proficiency",
-                                                       "High Growth, Low Proficiency" = "High Growth, Low Proficiency",
-                                                       "Low Growth, High Proficiency" = "Low Growth, High Proficiency",
-                                                       "Low Growth, Low Proficiency" = "Low Growth, Low Proficiency",
+                                                       "High Growth, High Proficiency" = "High Growth\n High Proficiency",
+                                                       "High Growth, Low Proficiency" = "High Growth\n Low Proficiency",
+                                                       "Low Growth, High Proficiency" = "Low Growth\n High Proficiency",
+                                                       "Low Growth, Low Proficiency" = "Low Growth\n Low Proficiency",
                                                        .ordered = TRUE))%>%
    mutate(`Grade` = as.factor(`Grade`))%>%
   mutate(`IEP` = as.factor(`IEP`))%>%
@@ -124,7 +124,7 @@ del1 = base2 + geom_bar(position="dodge", stat = "identity", fill = "#0066CC") +
     x= "Benchmark Category",
     title = "Grade 5 Fall Skills",
     subtitle = "Sept 2023 Screening Rising Tide Charter Public School",
-    caption = "Source: Renaissance STAR Literacy and Math Assessment") +
+    caption = "Source: Renaissance Star Literacy and Math Assessment") +
   scale_color_brewer(palette = "Blues")+ theme(legend.title=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
 
 base = ggplot(data=mydata) 
@@ -211,9 +211,9 @@ labels = labs(
   x= "Student Growth Percentile",
   title = "G5 Fall-Winter Growth",
   subtitle = "Jan 2024 Rising Tide Charter Public School",
-  caption = "Source: Renaissance STAR Literacy and Math Assessment")
+  caption = "Source: Renaissance Star Literacy and Math Assessment")
 del2_final = base2_final + geom_histogram(fill = "#0066CC",color="#e9ecef", alpha = .6, position = "identity", binwidth = 20)+
-  geom_vline(xintercept = 50)+
+  geom_vline(xintercept = 50, color = "grey")+
   annotate("text", x = 63, y = 50, label = "45% Achieved") +
  # scale_fill_manual(values = "#0066CC")+ 
   theme_minimal() + labels + theme(axis.title.y=element_blank()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
@@ -251,15 +251,20 @@ G5_Math_data <- mydata2%>%
   filter(Grade == "5")%>%
   filter(`Assignment Type` == "Star Math")
 
-base3 = ggplot(data = G5_Math_data, x = `Test 1 PR`, y = `SGP (Expectation=50)`)
-del3_scat= base3 + geom_point(aes(x=`Test 1 PR`,
+base3_scat = ggplot(data = G5_Math_data, x = `Test 1 PR`, y = `SGP (Expectation=50)`)
+del3_scat= base3_scat + geom_point(aes(x=`Test 1 PR`,
                                  y=`SGP (Expectation=50)`, color = `IEP_Status`))+
   annotate("rect", xmin = 0, xmax = 25, ymin = 0, ymax = 49,
            alpha = .2)+
   geom_hline(yintercept = 50, color = "grey")+
   scale_color_manual(values = c("cyan","#0066CC"))+
- # scale_fill_manual(values = c( "#0066CC", "lightcyan"))+ 
-  theme_minimal() + theme(axis.title.y=element_blank()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank())
+  theme_minimal() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank())+
+labs(
+  y = "Student Growth Percentile",
+  x= "Test 1 Percentile",
+  title = "What is happening with Math students on IEPs?",
+  subtitle = "Fall 2023 - Winter 2024 Rising Tide Charter Public School",
+  caption = "Source: Renaissance Star Math Assessment")
  
 del3_scat 
 
@@ -302,7 +307,7 @@ view(G5_Growth)
      x= "Growth Proficiency Category",
      title = "What is happening in G5 Math?",
      subtitle = "Fall 2023 - Winter 2024 Rising Tide Charter Public School",
-     caption = "Source: Renaissance STAR Literacy and Math Assessment") +
+     caption = "Source: Renaissance Star Literacy and Math Assessment") +
    scale_fill_manual(values = c("darkblue", "skyblue"))+ theme(legend.title=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
 # 
  del3_bar
@@ -323,7 +328,7 @@ saveRDS(del3_bar, file = "del3_bar.rds")
      x= "Assginment Type",
      title = "What is happening in G5 Math?",
      subtitle = "Fall 2023 - Winter 2024 Rising Tide Charter Public School",
-     caption = "Source: Renaissance STAR Literacy and Math Assessment") +
+     caption = "Source: Renaissance Star Literacy and Math Assessment") +
    scale_fill_brewer(palette = "Blues")+ theme(legend.title=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
  
  # save del3_stack ----------------------------------------------------------
@@ -349,7 +354,7 @@ head(mass_zip_map)
 # merge data into map ----------------------------------------------------------
 mydataZip=aggregate(data=mydata2,`Test 1 PR`~`Postal Code`,FUN = mean)
 view(mydataZip)
-myMapGrade=merge(mass_zip_map,mydataZip,by.x= 'POSTCODE', 'Postal Code')
+myMapGrade=merge(mass_zip_map,mydataZip,by.x= 'POSTCODE', 'Postal Code', all = TRUE)
 
 # prepare plot
 
@@ -357,7 +362,12 @@ base4 = ggplot(myMapGrade)
 del4= base4 + geom_sf(aes(fill=`Test 1 PR`), colour = "white")+
   scale_fill_gradient(low = "skyblue",
                       high = "navyblue",
-                      name = "Mean PR") 
+                      name = "Mean PR") +
+  labs(
+    title = "Where do our struggling students come from?",
+    subtitle = "Fall 2023 Screening Rising Tide Charter Public School",
+    caption = "Source: Renaissance Star Literacy and Math Assessment") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
 del4
 
 # save del4 ----------------------------------------------------------
