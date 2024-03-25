@@ -116,7 +116,7 @@ del1 = base2 + geom_bar(position="dodge", stat = "identity", fill = "#0066CC") +
   geom_text(aes( y = `% Students`, label = `% Students`,
                  vjust = -.25))+
   # scale_fill_brewer(palette = "Blues")+
-  #theme(axis.title.x=element_blank(),
+  theme(axis.title.x=element_blank())+
   #    axis.text.x=element_blank(),
   #   axis.ticks.x=element_blank())+
   labs(
@@ -210,11 +210,11 @@ base2_final = ggplot(data = math_data, aes(x=`SGP (Expectation=50)`))
 labels = labs(
   x= "Student Growth Percentile",
   title = "G5 Fall-Winter Growth",
-  subtitle = "Jan 2024 Screening Rising Tide Charter Public School",
-  caption = "Source: Renaissance, STAR Literacy and Math Assessment")
+  subtitle = "Jan 2024 Rising Tide Charter Public School",
+  caption = "Source: Renaissance STAR Literacy and Math Assessment")
 del2_final = base2_final + geom_histogram(fill = "#0066CC",color="#e9ecef", alpha = .6, position = "identity", binwidth = 20)+
   geom_vline(xintercept = 50)+
-  annotate("text", x = 61, y = 50, label = "50% Achieved") +
+  annotate("text", x = 63, y = 50, label = "45% Achieved") +
  # scale_fill_manual(values = "#0066CC")+ 
   theme_minimal() + labels + theme(axis.title.y=element_blank()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
 # save del2
@@ -246,13 +246,13 @@ del2Draft
 # save del2Draft ----------------------------------------------------------
 saveRDS(del2Draft, file = "del2Draft.rds")
 
-# deliverable 3 final ----------------------------------------------------------
+# deliverable 3 Scatter with IEP Status ----------------------------------------------------------
 G5_Math_data <- mydata2%>%
   filter(Grade == "5")%>%
   filter(`Assignment Type` == "Star Math")
 
 base3 = ggplot(data = G5_Math_data, x = `Test 1 PR`, y = `SGP (Expectation=50)`)
-del3= base3 + geom_point(aes(x=`Test 1 PR`,
+del3_scat= base3 + geom_point(aes(x=`Test 1 PR`,
                                  y=`SGP (Expectation=50)`, color = `IEP_Status`))+
   annotate("rect", xmin = 0, xmax = 25, ymin = 0, ymax = 49,
            alpha = .2)+
@@ -261,11 +261,76 @@ del3= base3 + geom_point(aes(x=`Test 1 PR`,
  # scale_fill_manual(values = c( "#0066CC", "lightcyan"))+ 
   theme_minimal() + theme(axis.title.y=element_blank()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank())
  
-del3 
+del3_scat 
 
-# save del3 ----------------------------------------------------------
-saveRDS(del3, file = "del3.rds")
-# deliverable 3 ----------------------------------------------------------
+# save del3_scat ----------------------------------------------------------
+saveRDS(del3_scat, file = "del3_scat.rds")
+
+
+# deliverable 3 Growth Category by Subject ----------------------------------------------------------
+G5_data <- mydata2%>%
+  filter(Grade == "5")%>%
+  group_by(`Assignment Type`)%>%
+  mutate(student_count = 1)%>%
+  summarize(student_total = sum(student_count))
+
+view(G5_data)
+
+G5_Growth <- mydata2%>%
+  filter(`Grade` == "5")%>%
+  mutate(student_count = 1)%>%
+  select( `Growth Proficiency Category`, `Assignment Type`,  `student_count`)%>%
+  group_by(`Assignment Type`, `Growth Proficiency Category`)%>%
+  summarize(`Num Students` = sum(student_count))%>%
+  left_join(G5_data, by = c("Assignment Type" = "Assignment Type"))%>%
+  mutate(`% Students` = 100*round(`Num Students`/student_total, 2))%>%
+  ungroup()
+
+view(G5_Growth)
+
+
+
+  
+ base3_bar = ggplot(data = G5_Growth, aes(x = `Growth Proficiency Category`, y = `% Students`, fill = `Assignment Type`))
+ del3_bar= base3_bar + geom_bar(position="dodge", stat = "identity")+
+   coord_flip()+
+ theme(axis.title.y=element_blank())+
+   #    axis.text.x=element_blank(),
+   #   axis.ticks.x=element_blank())+
+   labs(
+     y = "% Students",
+     x= "Growth Proficiency Category",
+     title = "What is happening in G5 Math?",
+     subtitle = "Fall 2023 - Winter 2024 Rising Tide Charter Public School",
+     caption = "Source: Renaissance STAR Literacy and Math Assessment") +
+   scale_fill_manual(values = c("darkblue", "skyblue"))+ theme(legend.title=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
+# 
+ del3_bar
+
+# save del3_bar ----------------------------------------------------------
+saveRDS(del3_bar, file = "del3_bar.rds")
+ 
+# deliverable 3 stacked --------------------------------------------------
+ 
+ base3_stack = ggplot(data = G5_Growth, aes(x = `Assignment Type`, y = `% Students`, fill = `Growth Proficiency Category`))
+ del3_stack= base3_stack + geom_bar( stat = "identity")+
+   coord_flip()+
+   theme(axis.title.y=element_blank())+
+   #    axis.text.x=element_blank(),
+   #   axis.ticks.x=element_blank())+
+   labs(
+     y = "% Students",
+     x= "Assginment Type",
+     title = "What is happening in G5 Math?",
+     subtitle = "Fall 2023 - Winter 2024 Rising Tide Charter Public School",
+     caption = "Source: Renaissance STAR Literacy and Math Assessment") +
+   scale_fill_brewer(palette = "Blues")+ theme(legend.title=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
+ 
+ # save del3_stack ----------------------------------------------------------
+ saveRDS(del3_stack, file = "del3_stack.rds")
+ 
+ 
+ # deliverable 3 ----------------------------------------------------------
 
 del3Draft= base + geom_point(aes(x=Student.Teacher.Ratio,
                                  y=Free.Lunch))
@@ -289,7 +354,10 @@ myMapGrade=merge(mass_zip_map,mydataZip,by.x= 'POSTCODE', 'Postal Code')
 # prepare plot
 
 base4 = ggplot(myMapGrade)
-del4= base4 + geom_sf(aes(fill=`Test 1 PR`))
+del4= base4 + geom_sf(aes(fill=`Test 1 PR`), colour = "white")+
+  scale_fill_gradient(low = "skyblue",
+                      high = "navyblue",
+                      name = "Mean PR") 
 del4
 
 # save del4 ----------------------------------------------------------

@@ -38,12 +38,15 @@ readRDS("del2_final.rds")
 
 ## Column {data-width="550"}
 
-### Worst scatterplot
+### How our G5 students grew by subject
 
 ```{r}
 #readRDS("del3Draft.rds")
 
-readRDS("del3.rds")
+#readRDS("del3_scat.rds")
+
+#readRDS("del3_bar.rds")
+readRDS("del3_stack.rds")
 ```
 
 ### Worst map
