@@ -214,7 +214,7 @@ labels = labs(
   caption = "Source: Renaissance Star Literacy and Math Assessment")
 del2_final = base2_final + geom_histogram(fill = "#0066CC",color="#e9ecef", alpha = .6, position = "identity", binwidth = 20)+
   geom_vline(xintercept = 50, color = "grey")+
-  annotate("text", x = 63, y = 50, label = "45% Achieved") +
+  annotate("text", x = 63, y = 45, label = "45% Achieved") +
  # scale_fill_manual(values = "#0066CC")+ 
   theme_minimal() + labels + theme(axis.title.y=element_blank()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
 # save del2
@@ -333,6 +333,27 @@ saveRDS(del3_bar, file = "del3_bar.rds")
  
  # save del3_stack ----------------------------------------------------------
  saveRDS(del3_stack, file = "del3_stack.rds")
+ 
+ 
+ # deliverable 3 box --------------------------------------------------
+ G5_Data<- mydata2%>%
+   filter(Grade == "5")
+ base3_box = ggplot(data = G5_Data, aes(x = `Assignment Type`, y = `SGP (Expectation=50)`, fill = `Assignment Type`))
+ del3_box= base3_box + geom_boxplot()+
+   coord_flip()+
+   theme(axis.title.y=element_blank())+
+   #    axis.text.x=element_blank(),
+   #   axis.ticks.x=element_blank())+
+   labs(
+     y = "Student Growth Percentile",
+     x= "Assginment Type",
+     title = "What is happening in G5 Math?",
+     subtitle = "Fall 2023 - Winter 2024 Rising Tide Charter Public School",
+     caption = "Source: Renaissance Star Literacy and Math Assessment") +
+   scale_fill_brewer(palette = "Blues")+ theme(legend.title=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
+ 
+ # save del3_stack ----------------------------------------------------------
+ saveRDS(del3_box, file = "del3_box.rds")
  
  
  # deliverable 3 ----------------------------------------------------------
