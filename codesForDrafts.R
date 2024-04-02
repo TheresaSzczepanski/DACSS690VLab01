@@ -23,7 +23,7 @@ mydata=read.csv(filename)
 
 filename2 = "_data/PrivProtectWinterGrowthAddress.csv"
 mydata2_test <- read.csv(filename2)
-view(mydata2_test)
+#view(mydata2_test)
 mydata2<- mydata2_test%>%
   mutate(`Test 2 Benchmark Category` = recode_factor(`Test.2.Benchmark.Category`,
                                                      "At/Above Benchmark" = "At/Above Benchmark",
@@ -107,7 +107,7 @@ Fall_Benchmark_Dist_G5 <- mydata2%>%
   filter(`Grade` == 5)
  
 
-view(Fall_Benchmark_Dist_G5)
+#view(Fall_Benchmark_Dist_G5)
 
 library(ggplot2)
 base2 = ggplot(data = Fall_Benchmark_Dist_G5, aes(x=`Test 1 Benchmark Category`, y = `% Students`))
@@ -191,7 +191,7 @@ Winter_Growth_Dist_Count<- mydata2%>%
   group_by(`Grade`, `Growth Proficiency Category`)%>%
   summarize(student_total = sum(student_count))
 
-view(Winter_Growth_Dist_Count)
+#view(Winter_Growth_Dist_Count)
 
 # Fall_Benchmark_Dist_G5 <- mydata2%>%
 #   #filter(`Test 1 Benchmark Category` == "At/Above Benchmark")%>%
@@ -279,7 +279,7 @@ G5_data <- mydata2%>%
   mutate(student_count = 1)%>%
   summarize(student_total = sum(student_count))
 
-view(G5_data)
+#view(G5_data)
 
 G5_Growth <- mydata2%>%
   filter(`Grade` == "5")%>%
@@ -291,7 +291,7 @@ G5_Growth <- mydata2%>%
   mutate(`% Students` = 100*round(`Num Students`/student_total, 2))%>%
   ungroup()
 
-view(G5_Growth)
+#view(G5_Growth)
 
 
 
@@ -374,10 +374,13 @@ head(mass_zip_map)
 
 # merge data into map ----------------------------------------------------------
 mydataZip=aggregate(data=mydata2,`Test 1 PR`~`Postal Code`,FUN = mean)
-view(mydataZip)
+#view(mydataZip)
 myMapGrade=merge(mass_zip_map,mydataZip,by.x= 'POSTCODE', 'Postal Code', all = TRUE)
 
 # prepare plot
+
+view(myMapGrade)
+#myMapGrade_Crop<- st_crop(myMapGrade, xmin = 1, xmax = 2)
 
 base4 = ggplot(myMapGrade)
 del4= base4 + geom_sf(aes(fill=`Test 1 PR`), colour = "white")+
