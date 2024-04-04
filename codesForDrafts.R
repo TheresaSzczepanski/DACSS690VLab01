@@ -293,10 +293,27 @@ G5_Growth <- mydata2%>%
 
 #view(G5_Growth)
 
+G5_Growth_Edit <- mydata2%>%
+  filter(`Grade` == "5")%>%
+  mutate(student_count = 1)%>%
+  mutate(`Growth Category` = case_when(
+    `Growth Proficiency Category` == "High Growth\n High Proficiency" ~ "High Growth",
+    `Growth Proficiency Category` == "High Growth\n Low Proficiency" ~ "High Growth",
+    `Growth Proficiency Category` == "Low Growth\n High Proficiency" ~ "Low Growth",
+    `Growth Proficiency Category` == "Low Growth\n Low Proficiency" ~ "Low Growth"
+  ))%>%
+  select( `Growth Category`, `Assignment Type`,  `student_count`)%>%
+  group_by(`Assignment Type`, `Growth Category`)%>%
+  summarize(`Num Students` = sum(student_count))%>%
+  left_join(G5_data, by = c("Assignment Type" = "Assignment Type"))%>%
+  mutate(`% Students` = 100*round(`Num Students`/student_total, 2))%>%
+  ungroup()
+
+# view(G5_Growth_Edit)
 
 
   
- base3_bar = ggplot(data = G5_Growth, aes(x = `Growth Proficiency Category`, y = `% Students`, fill = `Assignment Type`))
+ base3_bar = ggplot(data = G5_Growth_Edit, aes(x = `Growth Category`, y = `% Students`, fill = `Assignment Type`))
  del3_bar= base3_bar + geom_bar(position="dodge", stat = "identity")+
    coord_flip()+
  theme(axis.title.y=element_blank())+
@@ -311,13 +328,15 @@ G5_Growth <- mydata2%>%
    scale_fill_manual(values = c("darkblue", "skyblue"))+ theme(legend.title=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
 # 
  del3_bar
+ 
+
 
 # save del3_bar ----------------------------------------------------------
 saveRDS(del3_bar, file = "del3_bar.rds")
  
 # deliverable 3 stacked --------------------------------------------------
  
- base3_stack = ggplot(data = G5_Growth, aes(x = `Assignment Type`, y = `% Students`, fill = `Growth Proficiency Category`))
+ base3_stack = ggplot(data = G5_Growth_Edit, aes(x = `Assignment Type`, y = `% Students`, fill = `Growth Category`))
  del3_stack= base3_stack + geom_bar( stat = "identity")+
    coord_flip()+
    theme(axis.title.y=element_blank())+
@@ -352,8 +371,29 @@ saveRDS(del3_bar, file = "del3_bar.rds")
      caption = "Source: Renaissance Star Literacy and Math Assessment") +
    scale_fill_brewer(palette = "Blues")+ theme(legend.title=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
  
- # save del3_stack ----------------------------------------------------------
+ # save del3_box ----------------------------------------------------------
  saveRDS(del3_box, file = "del3_box.rds")
+ 
+ 
+ # deliverable 3 hist --------------------------------------------------
+ G5_Data<- mydata2%>%
+   filter(Grade == "5")
+ base3_hist = ggplot(data = G5_Data, aes(x = `SGP (Expectation=50)`))
+ del3_hist= base3_hist + geom_histogram(fill = "#0066CC",color="#e9ecef", alpha = .6, position = "identity", binwidth = 20)+
+   facet_wrap(~`Assignment Type`)+
+   theme(axis.title.y=element_blank())+
+   #    axis.text.x=element_blank(),
+   #   axis.ticks.x=element_blank())+
+   labs(
+     y = "Student Growth Percentile",
+     x= "Assginment Type",
+     title = "What is happening in G5 Math?",
+     subtitle = "Fall 2023 - Winter 2024 Rising Tide Charter Public School",
+     caption = "Source: Renaissance Star Literacy and Math Assessment") +
+   scale_fill_brewer(palette = "Blues")+ theme(legend.title=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
+ 
+ # save del3_hist ----------------------------------------------------------
+ saveRDS(del3_hist, file = "del3_hist.rds")
  
  
  # deliverable 3 ----------------------------------------------------------
