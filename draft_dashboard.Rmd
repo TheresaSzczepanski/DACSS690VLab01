@@ -48,6 +48,7 @@ readRDS("del2_final.rds")
 readRDS("del3_bar.rds") # try just a growth variable w/out proficiency
 readRDS("del3_stack.rds")
 readRDS("del3_box.rds") # try a histogram
+readRDS("del3_hist.rds")
 ```
 
 ### Worst map

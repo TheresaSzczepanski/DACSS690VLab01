@@ -378,12 +378,19 @@ saveRDS(del3_bar, file = "del3_bar.rds")
  # deliverable 3 hist --------------------------------------------------
  G5_Data<- mydata2%>%
    filter(Grade == "5")
+ dat_text <- data.frame(label = c("40% Achieved", "55% Achieved"), cyl = c("Star Math", "Star Reading"))
  base3_hist = ggplot(data = G5_Data, aes(x = `SGP (Expectation=50)`))
  del3_hist= base3_hist + geom_histogram(fill = "#0066CC",color="#e9ecef", alpha = .6, position = "identity", binwidth = 20)+
    facet_wrap(~`Assignment Type`)+
-   theme(axis.title.y=element_blank())+
-   #    axis.text.x=element_blank(),
+   theme(axis.title.y=element_blank(),
+       axis.title.x=element_blank())+
    #   axis.ticks.x=element_blank())+
+   geom_vline(xintercept = 50, color = "grey")+
+  # annotate("text", x = 72, y = 25, label = "40% Achieved") +
+  # geom_text(data = dat_text, mapping = aes(x = -Inf, y = -Inf, label = label), x = 70, y = 25)+#hjust  = .5, vjust = 1)+
+  # ann_text <- data.frame(mpg = 15,wt = 5,lab = "Text_Math",
+  #                        cyl = factor(8,levels = c("4","6","8")))
+ #p + geom_text(data = ann_text,label = "Text_Math")
    labs(
      y = "Student Growth Percentile",
      x= "Assginment Type",
