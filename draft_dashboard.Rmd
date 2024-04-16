@@ -45,10 +45,11 @@ readRDS("del2_final.rds")
 
 #readRDS("del3_scat.rds")
 
-readRDS("del3_bar.rds") # try just a growth variable w/out proficiency
+# To do Make the stack bar colors different!
+#readRDS("del3_bar.rds") 
 readRDS("del3_stack.rds")
-readRDS("del3_box.rds") # try a histogram
-readRDS("del3_hist.rds")
+#readRDS("del3_box.rds") 
+#readRDS("del3_hist.rds")
 ```
 
 ### Worst map

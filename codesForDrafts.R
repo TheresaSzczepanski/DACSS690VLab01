@@ -348,7 +348,7 @@ saveRDS(del3_bar, file = "del3_bar.rds")
      title = "What is happening in G5 Math?",
      subtitle = "Fall 2023 - Winter 2024 Rising Tide Charter Public School",
      caption = "Source: Renaissance Star Literacy and Math Assessment") +
-   scale_fill_brewer(palette = "Blues")+ theme(legend.title=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
+   scale_fill_manual(values = c("darkblue", "skyblue"))+ theme(legend.title=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
  
  # save del3_stack ----------------------------------------------------------
  saveRDS(del3_stack, file = "del3_stack.rds")
