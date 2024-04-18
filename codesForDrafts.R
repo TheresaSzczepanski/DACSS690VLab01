@@ -424,12 +424,16 @@ mydataZip=aggregate(data=mydata2,`Test 1 PR`~`Postal Code`,FUN = mean)
 #view(mydataZip)
 myMapGrade=merge(mass_zip_map,mydataZip,by.x= 'POSTCODE', 'Postal Code', all = TRUE)
 
+
 # prepare plot
 
 view(myMapGrade)
-#myMapGrade_Crop<- st_crop(myMapGrade, xmin = 1, xmax = 2)
+myMapGrade_Crop<- myMapGrade%>%
+  filter(`COUNTY` == "PLYMOUTH"| `COUNTY` == "BARNSTABLE" | `COUNTY` == "BRISTOL" | `COUNTY` == "NORFOLK")
 
-base4 = ggplot(myMapGrade)
+view(myMapGrade_Crop)
+
+base4 = ggplot(myMapGrade_Crop)
 del4= base4 + geom_sf(aes(fill=`Test 1 PR`), colour = "white")+
   scale_fill_gradient(low = "skyblue",
                       high = "navyblue",
