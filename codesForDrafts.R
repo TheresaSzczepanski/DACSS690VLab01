@@ -437,9 +437,9 @@ base4 = ggplot(myMapGrade_Crop)
 del4= base4 + geom_sf(aes(fill=`Test 1 PR`), colour = "white")+
   scale_fill_gradient(low = "skyblue",
                       high = "navyblue",
-                      name = "Mean PR")+ #+ geom_sf_text(aes(label = `Test 1 PR`), colour = "white")
+                      name = "Mean PR")+ #geom_sf_text(aes(label = `PC_NAME`), colour = "white") +
   labs(
-    title = "Where do our struggling students come from?",
+    title = "Grade 5 Fall Skills",
     subtitle = "Fall 2023 Screening Rising Tide Charter Public School",
     caption = "Source: Renaissance Star Literacy and Math Assessment") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) 
