@@ -14,6 +14,7 @@ source("codesForDrafts.R")
 ## Intro {.sidebar}
 
 Preparing the dashboard based on the instructions given by @magallanes_jose_manuel_data_2022, and @leisch_friedrich_sweave_2024
+Link to the full dashboard at https://github.com/TheresaSzczepanski/DACSS690VLab01
 
 ### References
 <div id="refs"></div>
