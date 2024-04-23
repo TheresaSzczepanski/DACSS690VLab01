@@ -1,5 +1,5 @@
 ---
-title: "My Storyboard at DACSS - tabs"
+title: "Theresa Szczepanski DACSS 690V"
 bibliography: testVisual.bib
 output: 
   flexdashboard::flex_dashboard
@@ -7,36 +7,38 @@ output:
 
 ```{r setup, include=FALSE}
 library(flexdashboard) # always
+source("codesForDrafts.R")
 ```
 
 ## Sidebar {.sidebar}
 
 Preparing the dashboard based on the instructions given at @magallanes_reyes_data_2022, and @aden-buie_flexdashboard_2023.
+Link to the full dashboard at https://github.com/TheresaSzczepanski/DACSS690VLab01
 
 ## Column {.tabset .tabset-fade}
 
-### Worst barplot
+### How our G5 students began the year
 
 ```{r}
-readRDS("del1Draft.rds")
+readRDS("del1.rds")
 ```
 
-### Worst histogram
+### How our G5 students grew
 
 ```{r}
-readRDS("del2Draft.rds")
+readRDS("del2_final.rds")
 ```
 
-### Worst scatterplot
+### How our G5 students grew by subject
 
 ```{r}
-readRDS("del3Draft.rds")
+readRDS("del3_stack.rds")
 ```
 
-### Worst map
+### Where do our struggling G5 students come from?
 
 ```{r}
-readRDS("del4Draft.rds")
+readRDS("del4.rds")
 ```
 
 ### References
