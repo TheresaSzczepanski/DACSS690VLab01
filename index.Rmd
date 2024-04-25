@@ -2,8 +2,7 @@
 title: "Theresa Szczepanski DACSS 690V"
 bibliography: testVisual.bib
 output: 
-  flexdashboard::flex_dashboard:
-    orientation: columns
+  flexdashboard::flex_dashboard
 ---
 
 ```{r setup, include=FALSE}
@@ -11,51 +10,35 @@ library(flexdashboard) # always
 source("codesForDrafts.R")
 ```
 
-## Intro {.sidebar}
+## Sidebar {.sidebar}
 
-Preparing the dashboard based on the instructions given by @magallanes_jose_manuel_data_2022, and @leisch_friedrich_sweave_2024
+Preparing the dashboard based on the instructions given at @magallanes_reyes_data_2022, and @aden-buie_flexdashboard_2023.
 Link to the full dashboard at https://github.com/TheresaSzczepanski/DACSS690VLab01
 
-### References
-<div id="refs"></div>
+## Column {.tabset .tabset-fade}
 
-## Column {data-width="450"}
-
-### How our G5 students began the year <!-- a title for plot -->
+### How our G5 students began the year
 
 ```{r}
-#readRDS("del1Draft.rds")
 readRDS("del1.rds")
 ```
 
 ### How our G5 students grew
 
 ```{r}
-#readRDS("del2Draft.rds")
-#readRDS("del2.rds")
-
 readRDS("del2_final.rds")
 ```
-
-## Column {data-width="550"}
 
 ### How our G5 students grew by subject
 
 ```{r}
-#readRDS("del3Draft.rds")
-
-#readRDS("del3_scat.rds")
-
-# To do Make the stack bar colors different!
-#readRDS("del3_bar.rds") 
 readRDS("del3_stack.rds")
-#readRDS("del3_box.rds") 
-#readRDS("del3_hist.rds")
 ```
 
 ### Where do our struggling G5 students come from?
 
 ```{r}
-#readRDS("del4Draft.rds")
 readRDS("del4.rds")
 ```
+
+### References
